@@ -33,20 +33,13 @@ function getRotationVector(byte) {
 }
 
 const blockFaces = ["xNeg", "xPos", "yNeg", "yPos", "zNeg", "zPos"]
-/**
- * @todo Rename this function or remove it.
- */
+/** @todo Rename this function or remove it. */
 function fLEEP(arr) {
 	if (arr[0]) {
 		arr[0] = 0
 	} else {
 		arr[0] = 1
 	}
-	// if (arr[1]) {
-	// 	arr[1] = 0
-	// } else {
-	// 	arr[1] = 1
-	// }
 	return arr
 }
 // faceCovers means if the surface covers the whole area. currently, only full faces are considered when detecting occluded geometry
@@ -362,14 +355,14 @@ function addGeometry(face, offset, color = [255, 0, 0], rotation = [0, 0, 0]) {
 		const vert1 = face.geometry[vertexOffset]
 		const vert2 = face.geometry[vertexOffset + 1]
 		const vert3 = face.geometry[vertexOffset + 2]
-			;[vert1, vert2, vert3].forEach((vert) => {
-				let transformedVert = []
-				rotateY(transformedVert, vert[0], [0.5, 0.5, 0.5], rotation[1])
-				rotateZ(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[2])
-				rotateX(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[0])
-				output += `v ${transformedVert.map((vertPos, vertIndex) => vertPos + offset[vertIndex]).join(" ")} ${color[0] / 255} ${color[1] / 255} ${color[2] / 255}\n`
-				output += `vt ${vert[1].join(" ")}\n`
-			})
+		;[vert1, vert2, vert3].forEach((vert) => {
+			let transformedVert = []
+			rotateY(transformedVert, vert[0], [0.5, 0.5, 0.5], rotation[1])
+			rotateZ(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[2])
+			rotateX(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[0])
+			output += `v ${transformedVert.map((vertPos, vertIndex) => vertPos + offset[vertIndex]).join(" ")} ${color[0] / 255} ${color[1] / 255} ${color[2] / 255}\n`
+			output += `vt ${vert[1].join(" ")}\n`
+		})
 		output += `f ${vertexNumber}/${vertexNumber} ${vertexNumber + 1}/${vertexNumber + 1} ${vertexNumber + 2}/${vertexNumber + 2}\n`
 		vertexNumber += 3
 	}
