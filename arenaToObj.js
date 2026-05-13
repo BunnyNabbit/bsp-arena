@@ -1,11 +1,11 @@
 function readRotationX(byte) {
-	return ((byte << 26) >>> 30)
+	return (byte << 26) >>> 30
 }
 function readRotationY(byte) {
-	return ((byte << 28) >>> 30)
+	return (byte << 28) >>> 30
 }
 function readRotationZ(byte) {
-	return ((byte << 30) >>> 30)
+	return (byte << 30) >>> 30
 }
 const radianIncrement = 1.5708
 function getRotationVector(byte) {
@@ -14,25 +14,22 @@ function getRotationVector(byte) {
 	// ps: the bottom face is incorrect. please fix.
 	switch (byte) {
 		case 17: // 000 10001 to understand means to know what is going on. this was easy to figure out.
-			return [1, 1, 0].map(value => value * radianIncrement)
+			return [1, 1, 0].map((value) => value * radianIncrement)
 		case 18: // 000 10010 again, but the process of understanding becomes easier to understand.
-			return [1, 2, 0].map(value => value * radianIncrement)
+			return [1, 2, 0].map((value) => value * radianIncrement)
 		case 19: // if it somehow isn't obvious. the process is rather simple, i am only incrementing the x and y. it may be easier to understand when given the game's interface for rotations.
-			return [1, 3, 0].map(value => value * radianIncrement)
+			return [1, 3, 0].map((value) => value * radianIncrement)
 		case 25: // this is clearly a separate row now, as indicated by the numbers being changed. however, the process remains the same, and was easily guessed once you're aware of the vectors that were correct, and those that aren't. however, this is what i would have said if this worked and is much complicated as it may have seemed, as it turns out, [3, 1, 0] was not the correct answer. if you just can't , just take a break. I feel tried (not tired, but also tired too.).
-			return [3, 1, 0].map(value => value * radianIncrement)
+			return [3, 1, 0].map((value) => value * radianIncrement)
 		case 24: // i was once called a freak. but maybe whoever said that was right.
-			return [1, 0, 2].map(value => value * radianIncrement)
+			return [1, 0, 2].map((value) => value * radianIncrement)
 		case 27: // finally. i hated those three. as dull as it sounds, just keep trying. you'll get it.
-			return [3, 3, 0].map(value => value * radianIncrement)
+			return [3, 3, 0].map((value) => value * radianIncrement)
 		case 31: // apparently there are more cases.
-			return [2, 1, 2].map(value => value * radianIncrement)
+			return [2, 1, 2].map((value) => value * radianIncrement)
 		default: // but i believe everything i know about rotations is just speculation. i wasn't aware that the rotation order can matter. math is weird.
-			return [readRotationX(byte) * radianIncrement,
-			readRotationY(byte) * radianIncrement,
-			readRotationZ(byte) * radianIncrement]
+			return [readRotationX(byte) * radianIncrement, readRotationY(byte) * radianIncrement, readRotationZ(byte) * radianIncrement]
 	}
-
 }
 
 const blockFaces = ["xNeg", "xPos", "yNeg", "yPos", "zNeg", "zPos"]
@@ -62,25 +59,45 @@ const cubeShape = {
 
 			[[1, 0, 1], fLEEP([0, 1])],
 			[[0, 0, 1], fLEEP([0, 0])],
-			[[1, 0, 0], fLEEP([1, 1])]
+			[[1, 0, 0], fLEEP([1, 1])],
 		],
 		faceNormal: [0, -1, 0],
-		faceCovers: true
+		faceCovers: true,
 	},
-	yPos: { // Top face
+	yPos: {
+		// Top face
 		geometry: [
-			[[1, 1, 0], [0, 0]],
-			[[0, 1, 0], [0, 1]],
-			[[0, 1, 1], [1, 1]],
+			[
+				[1, 1, 0],
+				[0, 0],
+			],
+			[
+				[0, 1, 0],
+				[0, 1],
+			],
+			[
+				[0, 1, 1],
+				[1, 1],
+			],
 
-			[[1, 1, 1], [1, 0]],
-			[[1, 1, 0], [0, 0]],
-			[[0, 1, 1], [1, 1]]
+			[
+				[1, 1, 1],
+				[1, 0],
+			],
+			[
+				[1, 1, 0],
+				[0, 0],
+			],
+			[
+				[0, 1, 1],
+				[1, 1],
+			],
 		],
 		faceNormal: [0, 1, 0],
-		faceCovers: true
+		faceCovers: true,
 	},
-	zNeg: { // front face
+	zNeg: {
+		// front face
 		geometry: [
 			[[1, 0, 0], fLEEP([0, 0])],
 			[[0, 0, 0], fLEEP([1, 0])],
@@ -88,13 +105,14 @@ const cubeShape = {
 
 			[[1, 1, 0], fLEEP([0, 1])],
 			[[1, 0, 0], fLEEP([0, 0])],
-			[[0, 1, 0], fLEEP([1, 1])]
+			[[0, 1, 0], fLEEP([1, 1])],
 		],
 		faceNormal: [0, 0, -1],
-		faceCovers: true
+		faceCovers: true,
 	},
 
-	zPos: { // back face
+	zPos: {
+		// back face
 		geometry: [
 			[[0, 0, 1], fLEEP([0, 0])],
 			[[1, 0, 1], fLEEP([1, 0])],
@@ -102,12 +120,13 @@ const cubeShape = {
 
 			[[0, 1, 1], fLEEP([0, 1])],
 			[[0, 0, 1], fLEEP([0, 0])],
-			[[1, 1, 1], fLEEP([1, 1])]
+			[[1, 1, 1], fLEEP([1, 1])],
 		],
 		faceNormal: [0, 0, 1],
-		faceCovers: true
+		faceCovers: true,
 	},
-	xNeg: { // left face
+	xNeg: {
+		// left face
 		geometry: [
 			[[0, 0, 0], fLEEP([0, 0])],
 			[[0, 0, 1], fLEEP([1, 0])],
@@ -115,12 +134,13 @@ const cubeShape = {
 
 			[[0, 1, 0], fLEEP([0, 1])],
 			[[0, 0, 0], fLEEP([0, 0])],
-			[[0, 1, 1], fLEEP([1, 1])]
+			[[0, 1, 1], fLEEP([1, 1])],
 		],
 		faceNormal: [-1, 0, 0],
-		faceCovers: true
+		faceCovers: true,
 	},
-	xPos: { // right face
+	xPos: {
+		// right face
 		geometry: [
 			[[1, 0, 1], fLEEP([0, 0])],
 			[[1, 0, 0], fLEEP([1, 0])],
@@ -128,11 +148,11 @@ const cubeShape = {
 
 			[[1, 1, 1], fLEEP([0, 1])],
 			[[1, 0, 1], fLEEP([0, 0])],
-			[[1, 1, 0], fLEEP([1, 1])]
+			[[1, 1, 0], fLEEP([1, 1])],
 		],
 		faceNormal: [1, 0, 0],
-		faceCovers: true
-	}
+		faceCovers: true,
+	},
 }
 const slopeShape = {
 	// bottom face
@@ -144,25 +164,45 @@ const slopeShape = {
 
 			[[1, 0, 1], fLEEP([0, 1])],
 			[[0, 0, 1], fLEEP([0, 0])],
-			[[1, 0, 0], fLEEP([1, 1])]
+			[[1, 0, 0], fLEEP([1, 1])],
 		],
 		faceNormal: [0, -1, 0],
-		faceCovers: true
+		faceCovers: true,
 	},
-	yPos: { // Top face
+	yPos: {
+		// Top face
 		geometry: [
-			[[1, 1, 0], [0, 0]],
-			[[0, 1, 0], [0, 1]],
-			[[0, 0, 1], [1, 1]],
+			[
+				[1, 1, 0],
+				[0, 0],
+			],
+			[
+				[0, 1, 0],
+				[0, 1],
+			],
+			[
+				[0, 0, 1],
+				[1, 1],
+			],
 
-			[[1, 0, 1], [1, 0]],
-			[[1, 1, 0], [0, 0]],
-			[[0, 0, 1], [1, 1]]
+			[
+				[1, 0, 1],
+				[1, 0],
+			],
+			[
+				[1, 1, 0],
+				[0, 0],
+			],
+			[
+				[0, 0, 1],
+				[1, 1],
+			],
 		],
 		faceNormal: [0, 1, 0],
-		faceCovers: false
+		faceCovers: false,
 	},
-	zNeg: { // front face ( ia)
+	zNeg: {
+		// front face ( ia)
 		geometry: [
 			[[1, 0, 0], fLEEP([0, 0])],
 			[[0, 0, 0], fLEEP([1, 0])],
@@ -170,135 +210,155 @@ const slopeShape = {
 
 			[[1, 1, 0], fLEEP([0, 1])],
 			[[1, 0, 0], fLEEP([0, 0])],
-			[[0, 1, 0], fLEEP([1, 1])]
+			[[0, 1, 0], fLEEP([1, 1])],
 		],
 		faceNormal: [0, 0, -1],
-		faceCovers: true
+		faceCovers: true,
 	},
 
-	zPos: { // back face
+	zPos: {
+		// back face
 		geometry: [
 			// [[0, 0, 1], [0, 1]],
 			// [[1, 0, 1], [1, 1]],
 			// [[1, 1, 1], [1, 0]],
-
 			// [[0, 1, 1], [0, 0]],
 			// [[0, 0, 1], [0, 1]],
 			// [[1, 1, 1], [1, 0]]
 		],
 		faceNormal: [0, 0, 1],
-		faceCovers: false
+		faceCovers: false,
 	},
-	xNeg: { // left face. I ARLEDY FIXED THE UV. DON:"T TOCUH"
+	xNeg: {
+		// left face. I ARLEDY FIXED THE UV. DON:"T TOCUH"
 		geometry: [
-			[[0, 0, 0], [1, 0]],
-			[[0, 0, 1], [0, 0]],
-			[[0, 1, 0], [1, 1]],
+			[
+				[0, 0, 0],
+				[1, 0],
+			],
+			[
+				[0, 0, 1],
+				[0, 0],
+			],
+			[
+				[0, 1, 0],
+				[1, 1],
+			],
 
 			// [[0, 1, 0], [0, 0]],
 			// [[0, 0, 0], [0, 1]],
 			// [[0, 1, 1], [1, 0]]
 		],
 		faceNormal: [-1, 0, 0],
-		faceCovers: false
+		faceCovers: false,
 	},
-	xPos: { // right face. intentionally broken to match BSP's texturing
+	xPos: {
+		// right face. intentionally broken to match BSP's texturing
 		geometry: [
-			[[1, 0, 1], [1, 1]],
-			[[1, 0, 0], [0, 0]],
-			[[1, 1, 0], [0, 1]],
+			[
+				[1, 0, 1],
+				[1, 1],
+			],
+			[
+				[1, 0, 0],
+				[0, 0],
+			],
+			[
+				[1, 1, 0],
+				[0, 1],
+			],
 
 			// [[1, 1, 1], [0, 1]],
 			// [[1, 0, 1], [0, 0]],
 			// [[1, 1, 0], [1, 1]]
 		],
 		faceNormal: [1, 0, 0],
-		faceCovers: false
-	}
+		faceCovers: false,
+	},
 }
 
 let output = "# Generated with BunnyNabbit's BlockStarPlanet .arena to .obj converter https://ko-fi.com/bunnynabbit\n"
 let vertexNumber = 1
 // https://www.npmjs.com/package/@math.gl/core
-/**
-* Rotate a 3D vector around the z-axis
-* @param out The receiving vec3
-* @param a The vec3 point to rotate
-* @param b The origin of the rotation
-* @param rad The angle of rotation in radians
-*/
+/**Rotate a 3D vector around the z-axis
+ *
+ * @param out The receiving vec3
+ * @param a The vec3 point to rotate
+ * @param b The origin of the rotation
+ * @param rad The angle of rotation in radians
+ */
 function rotateX(out, a, b, rad) {
-	const p = [];
-	const r = [];
+	const p = []
+	const r = []
 	// Translate point to the origin
-	p[0] = a[0] - b[0];
-	p[1] = a[1] - b[1];
-	p[2] = a[2] - b[2];
+	p[0] = a[0] - b[0]
+	p[1] = a[1] - b[1]
+	p[2] = a[2] - b[2]
 	// perform rotation
-	r[0] = p[0];
-	r[1] = p[1] * Math.cos(rad) - p[2] * Math.sin(rad);
-	r[2] = p[1] * Math.sin(rad) + p[2] * Math.cos(rad);
+	r[0] = p[0]
+	r[1] = p[1] * Math.cos(rad) - p[2] * Math.sin(rad)
+	r[2] = p[1] * Math.sin(rad) + p[2] * Math.cos(rad)
 	// translate to correct position
-	out[0] = r[0] + b[0];
-	out[1] = r[1] + b[1];
-	out[2] = r[2] + b[2];
-	return out;
+	out[0] = r[0] + b[0]
+	out[1] = r[1] + b[1]
+	out[2] = r[2] + b[2]
+	return out
 }
-/**
-* Rotate a 3D vector around the z-axis
-* @param out The receiving vec3
-* @param a The vec3 point to rotate
-* @param b The origin of the rotation
-* @param rad The angle of rotation in radians
-*/
+/**Rotate a 3D vector around the z-axis
+ *
+ * @param out The receiving vec3
+ * @param a The vec3 point to rotate
+ * @param b The origin of the rotation
+ * @param rad The angle of rotation in radians
+ */
 function rotateY(out, a, b, rad) {
-	const p = [];
-	const r = [];
+	const p = []
+	const r = []
 	// Translate point to the origin
-	p[0] = a[0] - b[0];
-	p[1] = a[1] - b[1];
-	p[2] = a[2] - b[2];
+	p[0] = a[0] - b[0]
+	p[1] = a[1] - b[1]
+	p[2] = a[2] - b[2]
 	// perform rotation
-	r[0] = p[2] * Math.sin(rad) + p[0] * Math.cos(rad);
-	r[1] = p[1];
-	r[2] = p[2] * Math.cos(rad) - p[0] * Math.sin(rad);
+	r[0] = p[2] * Math.sin(rad) + p[0] * Math.cos(rad)
+	r[1] = p[1]
+	r[2] = p[2] * Math.cos(rad) - p[0] * Math.sin(rad)
 	// translate to correct position
-	out[0] = r[0] + b[0];
-	out[1] = r[1] + b[1];
-	out[2] = r[2] + b[2];
-	return out;
+	out[0] = r[0] + b[0]
+	out[1] = r[1] + b[1]
+	out[2] = r[2] + b[2]
+	return out
 }
-/**
-* Rotate a 3D vector around the z-axis
-* @param out The receiving vec3
-* @param a The vec3 point to rotate
-* @param b The origin of the rotation
-* @param rad The angle of rotation in radians
-*/
+/**Rotate a 3D vector around the z-axis
+ *
+ * @param out The receiving vec3
+ * @param a The vec3 point to rotate
+ * @param b The origin of the rotation
+ * @param rad The angle of rotation in radians
+ */
 function rotateZ(out, a, b, rad) {
-	const p = [];
-	const r = [];
+	const p = []
+	const r = []
 	// Translate point to the origin
-	p[0] = a[0] - b[0];
-	p[1] = a[1] - b[1];
-	p[2] = a[2] - b[2];
+	p[0] = a[0] - b[0]
+	p[1] = a[1] - b[1]
+	p[2] = a[2] - b[2]
 	// perform rotation
-	r[0] = p[0] * Math.cos(rad) - p[1] * Math.sin(rad);
-	r[1] = p[0] * Math.sin(rad) + p[1] * Math.cos(rad);
-	r[2] = p[2];
+	r[0] = p[0] * Math.cos(rad) - p[1] * Math.sin(rad)
+	r[1] = p[0] * Math.sin(rad) + p[1] * Math.cos(rad)
+	r[2] = p[2]
 	// translate to correct position
-	out[0] = r[0] + b[0];
-	out[1] = r[1] + b[1];
-	out[2] = r[2] + b[2];
-	return out;
+	out[0] = r[0] + b[0]
+	out[1] = r[1] + b[1]
+	out[2] = r[2] + b[2]
+	return out
 }
 function addGeometry(face, offset, color = [255, 0, 0], rotation = [0, 0, 0]) {
 	for (let i = 0; i < face.geometry.length / 3; i++) {
 		const vertexOffset = i * 3
 		const vert1 = face.geometry[vertexOffset]
 		const vert2 = face.geometry[vertexOffset + 1]
-		const vert3 = face.geometry[vertexOffset + 2]; // STINKY, SMELLY SEMI-COLON THAT IS REQUIRED
-		[vert1, vert2, vert3].forEach(vert => {
+		const vert3 = face.geometry[vertexOffset + 2] // STINKY, SMELLY SEMI-COLON THAT IS REQUIRED
+		;[vert1, vert2, vert3].forEach((vert) => {
 			let transformedVert = []
 			rotateY(transformedVert, vert[0], [0.5, 0.5, 0.5], rotation[1])
 			rotateZ(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[2])
@@ -320,8 +380,10 @@ function addShape(shape, position, color, rotation) {
 }
 
 class PackedVoxels {
+	/**/
 	constructor(chunksX, chunksY, chunksZ, chunkSize) {
-		if (Buffer.isBuffer(chunksX)) { // data is serialized in BlockStarPlanet's voxel format
+		if (Buffer.isBuffer(chunksX)) {
+			// data is serialized in BlockStarPlanet's voxel format
 			const chunkData = SmartBuffer.fromBuffer(chunksX)
 			// read layout
 			const volumeChunks = [chunkData.readUInt8(), chunkData.readUInt8(), chunkData.readUInt8()]
@@ -355,21 +417,21 @@ class PackedVoxels {
 				if (chunkData.remaining()) bufferSize = chunkData.readUInt32BE()
 				iteration++
 			}
-			console.log('buffers', voxelBuffers.length / 4)
+			console.log("buffers", voxelBuffers.length / 4)
 
-			const blockBounds = volumeChunks.map(value => value * chunkSize)
+			const blockBounds = volumeChunks.map((value) => value * chunkSize)
 			for (let bufferIndex = 0; bufferIndex < voxelBuffers.length / 4; bufferIndex++) {
-				const blocktypeBuffer = voxelBuffers[(bufferIndex * 4)]
-				const rotationBuffer = voxelBuffers[(bufferIndex * 4) + 1]
-				const shapeBuffer = voxelBuffers[(bufferIndex * 4) + 2]
-				const rgbBuffer = voxelBuffers[(bufferIndex * 4) + 3]
+				const blocktypeBuffer = voxelBuffers[bufferIndex * 4]
+				const rotationBuffer = voxelBuffers[bufferIndex * 4 + 1]
+				const shapeBuffer = voxelBuffers[bufferIndex * 4 + 2]
+				const rgbBuffer = voxelBuffers[bufferIndex * 4 + 3]
 				const currentSectionOffset = volumeChunksOffsets[bufferIndex]
-				const blockOffset = currentSectionOffset.map(value => value * chunkSize)
+				const blockOffset = currentSectionOffset.map((value) => value * chunkSize)
 				let currentOffset = 0
 				for (let z = 0; z < chunkSize; z++) {
 					for (let y = 0; y < chunkSize; y++) {
 						for (let x = 0; x < chunkSize; x++) {
-							const typeDatum = blocktypeBuffer.readUInt16BE((currentOffset * 2) + 4)
+							const typeDatum = blocktypeBuffer.readUInt16BE(currentOffset * 2 + 4)
 							const shapeDatum = shapeBuffer.readUInt8(currentOffset)
 							const rotationDatum = rotationBuffer.readUInt8(currentOffset)
 							const colorDatum = rgbBuffer.readUInt32BE(currentOffset * 4)
@@ -383,33 +445,37 @@ class PackedVoxels {
 					}
 				}
 			}
-		} else { // not implemented
+		} else {
+			// not implemented
 			throw "Not implemented :("
 		}
 	}
+
 	setVolumes(chunkExtents, chunkSize) {
-		const volumeSize = chunkExtents.map(chunkExtent => chunkExtent * chunkSize)
+		const volumeSize = chunkExtents.map((chunkExtent) => chunkExtent * chunkSize)
 		const bufferLength = volumeSize[0] * volumeSize[1] * volumeSize[2]
 		this.types = Buffer.alloc(bufferLength * 2)
 		this.rotations = Buffer.alloc(bufferLength * 1)
 		this.shapes = Buffer.alloc(bufferLength * 1)
-		this.color = Buffer.alloc((bufferLength * 4) + 0)
+		this.color = Buffer.alloc(bufferLength * 4 + 0)
 		this.chunkExtents = chunkExtents
 		this.chunkSize = chunkSize
 		this.volumeSize = volumeSize
 		console.log(volumeSize, bufferLength)
 	}
+
 	getIndex(position) {
 		return position[0] + this.volumeSize[2] * (position[2] + this.volumeSize[0] * position[1])
 	}
+
 	getVoxel(index) {
 		return [this.types.readUInt16BE(index * 2), this.color.readUInt32BE(index * 4), this.shapes.readUInt8(index), this.rotations.readUInt8(index)]
 	}
-	setVoxel(type, shape, color, rotation) { // 0-255, int32 (including redunant bits), byte (??). htye're just numbers okay?
 
+	setVoxel(type, shape, color, rotation) {
+		// 0-255, int32 (including redunant bits), byte (??). htye're just numbers okay?
 	}
 }
-
 
 const fs = require("fs")
 const file = "./moarrotations.arena"
@@ -433,10 +499,10 @@ function applyRotation(position, rotation, origin = [0.5, 0.5, 0.5]) {
 	return transformed
 }
 function roundComponets(arr) {
-	return arr.map(value => Math.round(value))
+	return arr.map((value) => Math.round(value))
 }
 function getOpposingFace(shape, normal, rotation) {
-	return blockFaces.find(blockFace => {
+	return blockFaces.find((blockFace) => {
 		// console.log({
 		// 	faceNormal: shape[blockFace].faceNormal,
 		// 	rotation: rotation,
@@ -447,8 +513,9 @@ function getOpposingFace(shape, normal, rotation) {
 		// (transformed[0] == -normal[0] && transformed[1] == -normal[1] && transformed[2] == -normal[2])
 		// !applyRotation(shape[blockFace].faceNormal, rotation, [0, 0, 0]).some((value, index) => value !== -normal[index])
 
-
-		return applyRotation(shape[blockFace].faceNormal, rotation, [0, 0, 0]).map(value => Math.round(value)).some((value, index) => value !== 0 && normal[index] !== 0 && value == -normal[index])
+		return applyRotation(shape[blockFace].faceNormal, rotation, [0, 0, 0])
+			.map((value) => Math.round(value))
+			.some((value, index) => value !== 0 && normal[index] !== 0 && value == -normal[index])
 	})
 }
 function getShapeGeometryFromId(shapeId) {
@@ -468,7 +535,7 @@ for (let z = 0; z < packedVoxels.volumeSize[2]; z++) {
 			colorBuffer.writeUInt32BE(voxel[1], 0)
 			const rotation = getRotationVector(voxel[3])
 			let shapeGeometry = getShapeGeometryFromId(voxel[2])
-			blockFaces.forEach(blockFace => {
+			blockFaces.forEach((blockFace) => {
 				let isBlocked = false
 				blockFace = shapeGeometry[blockFace]
 				if (blockFace.faceCovers) {
@@ -502,7 +569,13 @@ for (let z = 0; z < packedVoxels.volumeSize[2]; z++) {
 						}
 					}
 				}
-				if (!isBlocked) addGeometry(blockFace, [x, y, z], [1, 2, 3].map(offset => colorBuffer.readUInt8(offset)), rotation)
+				if (!isBlocked)
+					addGeometry(
+						blockFace,
+						[x, y, z],
+						[1, 2, 3].map((offset) => colorBuffer.readUInt8(offset)),
+						rotation
+					)
 			})
 		}
 	}
