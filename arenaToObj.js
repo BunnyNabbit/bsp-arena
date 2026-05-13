@@ -13,27 +13,29 @@ function getRotationVector(byte) {
 	// typically, developers want to do sensible stuff, but other factors (internal or external) may screw that up and implement stuff that will be received poorly.
 	// ps: the bottom face is incorrect. please fix.
 	switch (byte) {
-		case 17: // 000 10001 to understand means to know what is going on. this was easy to figure out.
+		case 17:
 			return [1, 1, 0].map((value) => value * radianIncrement)
-		case 18: // 000 10010 again, but the process of understanding becomes easier to understand.
+		case 18:
 			return [1, 2, 0].map((value) => value * radianIncrement)
-		case 19: // if it somehow isn't obvious. the process is rather simple, i am only incrementing the x and y. it may be easier to understand when given the game's interface for rotations.
+		case 19:
 			return [1, 3, 0].map((value) => value * radianIncrement)
-		case 25: // this is clearly a separate row now, as indicated by the numbers being changed. however, the process remains the same, and was easily guessed once you're aware of the vectors that were correct, and those that aren't. however, this is what i would have said if this worked and is much complicated as it may have seemed, as it turns out, [3, 1, 0] was not the correct answer. if you just can't , just take a break. I feel tried (not tired, but also tired too.).
+		case 25:
 			return [3, 1, 0].map((value) => value * radianIncrement)
-		case 24: // i was once called a freak. but maybe whoever said that was right.
+		case 24:
 			return [1, 0, 2].map((value) => value * radianIncrement)
-		case 27: // finally. i hated those three. as dull as it sounds, just keep trying. you'll get it.
+		case 27:
 			return [3, 3, 0].map((value) => value * radianIncrement)
-		case 31: // apparently there are more cases.
+		case 31:
 			return [2, 1, 2].map((value) => value * radianIncrement)
-		default: // but i believe everything i know about rotations is just speculation. i wasn't aware that the rotation order can matter. math is weird.
+		default:
 			return [readRotationX(byte) * radianIncrement, readRotationY(byte) * radianIncrement, readRotationZ(byte) * radianIncrement]
 	}
 }
 
 const blockFaces = ["xNeg", "xPos", "yNeg", "yPos", "zNeg", "zPos"]
-
+/**
+ * @todo Rename this function or remove it.
+ */
 function fLEEP(arr) {
 	if (arr[0]) {
 		arr[0] = 0
@@ -357,15 +359,15 @@ function addGeometry(face, offset, color = [255, 0, 0], rotation = [0, 0, 0]) {
 		const vertexOffset = i * 3
 		const vert1 = face.geometry[vertexOffset]
 		const vert2 = face.geometry[vertexOffset + 1]
-		const vert3 = face.geometry[vertexOffset + 2] // STINKY, SMELLY SEMI-COLON THAT IS REQUIRED
-		;[vert1, vert2, vert3].forEach((vert) => {
-			let transformedVert = []
-			rotateY(transformedVert, vert[0], [0.5, 0.5, 0.5], rotation[1])
-			rotateZ(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[2])
-			rotateX(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[0])
-			output += `v ${transformedVert.map((vertPos, vertIndex) => vertPos + offset[vertIndex]).join(" ")} ${color[0] / 255} ${color[1] / 255} ${color[2] / 255}\n`
-			output += `vt ${vert[1].join(" ")}\n`
-		})
+		const vert3 = face.geometry[vertexOffset + 2]
+			;[vert1, vert2, vert3].forEach((vert) => {
+				let transformedVert = []
+				rotateY(transformedVert, vert[0], [0.5, 0.5, 0.5], rotation[1])
+				rotateZ(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[2])
+				rotateX(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[0])
+				output += `v ${transformedVert.map((vertPos, vertIndex) => vertPos + offset[vertIndex]).join(" ")} ${color[0] / 255} ${color[1] / 255} ${color[2] / 255}\n`
+				output += `vt ${vert[1].join(" ")}\n`
+			})
 		output += `f ${vertexNumber}/${vertexNumber} ${vertexNumber + 1}/${vertexNumber + 1} ${vertexNumber + 2}/${vertexNumber + 2}\n`
 		vertexNumber += 3
 	}
