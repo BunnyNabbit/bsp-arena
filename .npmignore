@@ -1,0 +1,11 @@
+.github/
+.gitattributes
+docs/
+docsTheme/
+tests/
+jest.config.mjs
+coverage/
+AGENTS.md
+CONTRIBUTING.md
+.prettierrc.mjs
+.release-it.json
