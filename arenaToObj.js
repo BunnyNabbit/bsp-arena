@@ -281,9 +281,9 @@ const slopeShape = {
 
 let output = "# Generated with BunnyNabbit's BlockStarPlanet .arena to .obj converter https://ko-fi.com/bunnynabbit\n"
 let vertexNumber = 1
-// https://www.npmjs.com/package/@math.gl/core
-/**Rotate a 3D vector around the z-axis
+/**Rotate a 3D vector around the z-axis.
  *
+ * @license {@link https://github.com/visgl/math.gl/blob/master/LICENSE|MIT}
  * @param out The receiving vec3
  * @param a The vec3 point to rotate
  * @param b The origin of the rotation
@@ -308,6 +308,7 @@ function rotateX(out, a, b, rad) {
 }
 /**Rotate a 3D vector around the z-axis
  *
+ * @license {@link https://github.com/visgl/math.gl/blob/master/LICENSE|MIT}
  * @param out The receiving vec3
  * @param a The vec3 point to rotate
  * @param b The origin of the rotation
@@ -332,6 +333,7 @@ function rotateY(out, a, b, rad) {
 }
 /**Rotate a 3D vector around the z-axis
  *
+ * @license {@link https://github.com/visgl/math.gl/blob/master/LICENSE|MIT}
  * @param out The receiving vec3
  * @param a The vec3 point to rotate
  * @param b The origin of the rotation
