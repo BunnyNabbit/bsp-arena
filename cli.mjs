@@ -8,7 +8,7 @@ const file = "./example.arena"
 let chunkData = null
 
 {
-	const arenaBuffer = zlib.inflateSync(fs.readFileSync(`${file}`))
+	const arenaBuffer = zlib.inflateSync(fs.readFileSync(file))
 	chunkData = zlib.inflateSync(arenaBuffer.subarray(6, arenaBuffer.length))
 }
 
