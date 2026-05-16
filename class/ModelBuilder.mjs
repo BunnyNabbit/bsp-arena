@@ -15,7 +15,6 @@ const blockFaces = ["xNeg", "xPos", "yNeg", "yPos", "zNeg", "zPos"]
 const degreeToRadianConstant = 1.5708
 /** @param {number} byte */
 function getRotationVector(byte) {
-	// typically, developers want to do sensible stuff, but other factors (internal or external) may screw that up and implement stuff that will be received poorly.
 	switch (byte) {
 		case 17:
 			return [1, 1, 0].map((value) => value * radianIncrement)
@@ -183,7 +182,6 @@ export class ModelBuilder {
 	}
 	build() {
 		for (let z = 0; z < this.packedVoxels.volumeSize[2]; z++) {
-			console.log(z)
 			for (let y = 0; y < this.packedVoxels.volumeSize[1]; y++) {
 				for (let x = 0; x < this.packedVoxels.volumeSize[0]; x++) {
 					const voxel = this.packedVoxels.getVoxel(this.packedVoxels.getIndex([x, y, z]))
