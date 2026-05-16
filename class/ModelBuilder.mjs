@@ -1,12 +1,15 @@
 // @ts-check
 import { cubeShape, slopeShape } from "../data/geometry.mjs"
-/** @import {PackedVoxels} from "./class/PackedVoxels.mjs" */
+/** @import {PackedVoxels} from "./PackedVoxels.mjs" */
+/** @todo Yet to be documented. */
 function readRotationX(byte) {
 	return (byte << 26) >>> 30
 }
+/** @todo Yet to be documented. */
 function readRotationY(byte) {
 	return (byte << 28) >>> 30
 }
+/** @todo Yet to be documented. */
 function readRotationZ(byte) {
 	return (byte << 30) >>> 30
 }
@@ -173,6 +176,7 @@ function getShapeGeometryFromId(shapeId) {
 	if (shapeId == 1) return slopeShape
 	return cubeShape
 }
+/** @todo Yet to be documented. */
 export class ModelBuilder {
 	/** @param {PackedVoxels} packedVoxels */
 	constructor(packedVoxels) {
@@ -180,6 +184,7 @@ export class ModelBuilder {
 		this.output = "# Generated with BunnyNabbit's BlockStarPlanet .arena to .obj converter https://ko-fi.com/bunnynabbit\n"
 		this.vertexNumber = 1
 	}
+	/** @todo Yet to be documented. */
 	build() {
 		for (let z = 0; z < this.packedVoxels.volumeSize[2]; z++) {
 			for (let y = 0; y < this.packedVoxels.volumeSize[1]; y++) {
