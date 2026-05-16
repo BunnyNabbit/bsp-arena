@@ -13,6 +13,7 @@ let chunkData = null
 }
 
 const modelBuilder = new ModelBuilder(new PackedVoxels(chunkData))
+modelBuilder.build()
 console.log("Output length:", modelBuilder.output.length)
 
 fs.writeFileSync("./example.obj", modelBuilder.output)
