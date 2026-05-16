@@ -174,17 +174,13 @@ function getShapeGeometryFromId(shapeId) {
 	if (shapeId == 1) return slopeShape
 	return cubeShape
 }
-
-// @ts-check
 export class ModelBuilder {
-	/**/
 	/** @param {PackedVoxels} packedVoxels */
 	constructor(packedVoxels) {
 		this.packedVoxels = packedVoxels
 		this.output = "# Generated with BunnyNabbit's BlockStarPlanet .arena to .obj converter https://ko-fi.com/bunnynabbit\n"
 		this.vertexNumber = 1
 	}
-
 	build() {
 		for (let z = 0; z < this.packedVoxels.volumeSize[2]; z++) {
 			console.log(z)
@@ -233,12 +229,10 @@ export class ModelBuilder {
 			}
 		}
 	}
-
 	/** @param {any[]} position */
 	#positionOffBounds(position) {
 		return position.some((/** @type {number} */ component, /** @type {string | number} */ index) => component >= this.packedVoxels.volumeSize[index] || component < 0)
 	}
-
 	/**@param {string} face
 	 * @param {any[]} offset
 	 */
