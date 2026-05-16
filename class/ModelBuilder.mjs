@@ -3,15 +3,15 @@ import { cubeShape, slopeShape } from "../data/geometry.mjs"
 /** @import {PackedVoxels} from "./PackedVoxels.mjs" */
 /** @todo Yet to be documented. */
 function readRotationX(byte) {
-	return (byte << 26) >>> 30
+	return Math.floor(byte / 16)
 }
 /** @todo Yet to be documented. */
 function readRotationY(byte) {
-	return (byte << 28) >>> 30
+	return -Math.floor(byte / 4)
 }
 /** @todo Yet to be documented. */
 function readRotationZ(byte) {
-	return (byte << 30) >>> 30
+	return -(byte % 4)
 }
 const blockFaces = ["xNeg", "xPos", "yNeg", "yPos", "zNeg", "zPos"]
 
@@ -19,20 +19,6 @@ const degreeToRadianConstant = 1.5708
 /** @param {number} byte */
 function getRotationVector(byte) {
 	switch (byte) {
-		case 17:
-			return [1, 1, 0].map((value) => value * radianIncrement)
-		case 18:
-			return [1, 2, 0].map((value) => value * radianIncrement)
-		case 19:
-			return [1, 3, 0].map((value) => value * radianIncrement)
-		case 25:
-			return [3, 1, 0].map((value) => value * radianIncrement)
-		case 24:
-			return [1, 0, 2].map((value) => value * radianIncrement)
-		case 27:
-			return [3, 3, 0].map((value) => value * radianIncrement)
-		case 31:
-			return [2, 1, 2].map((value) => value * radianIncrement)
 		default:
 			return [readRotationX(byte) * degreeToRadianConstant, readRotationY(byte) * degreeToRadianConstant, readRotationZ(byte) * degreeToRadianConstant]
 	}
@@ -118,9 +104,9 @@ function rotateZ(out, a, b, rad) {
 function applyRotation(position, rotation, origin = [0.5, 0.5, 0.5]) {
 	/** @type {never[]} */
 	let transformed = []
-	rotateY(transformed, position, origin, rotation[1])
+	rotateX(transformed, position, origin, rotation[0])
+	rotateY(transformed, transformed, origin, rotation[1])
 	rotateZ(transformed, transformed, origin, rotation[2])
-	rotateX(transformed, transformed, origin, rotation[0])
 	return transformed
 }
 /** @param {any[]} arr */
@@ -202,9 +188,9 @@ export class ModelBuilder {
 						if (blockFace.faceCovers) {
 							/** @type {number[]} */
 							let transformedNormal = []
-							rotateY(transformedNormal, blockFace.faceNormal, [0, 0, 0], rotation[1])
+							rotateX(transformedNormal, blockFace.faceNormal, [0, 0, 0], rotation[0])
+							rotateY(transformedNormal, transformedNormal, [0, 0, 0], rotation[1])
 							rotateZ(transformedNormal, transformedNormal, [0, 0, 0], rotation[2])
-							rotateX(transformedNormal, transformedNormal, [0, 0, 0], rotation[0])
 							transformedNormal = roundComponents(transformedNormal)
 							// check if the face is occluded
 							const checkPosition = [x, y, z].map((value, index) => Math.round(value + transformedNormal[index]))
@@ -248,9 +234,9 @@ export class ModelBuilder {
 			;[vert1, vert2, vert3].forEach((vert) => {
 				/** @type {any[]} */
 				let transformedVert = []
-				rotateY(transformedVert, vert[0], [0.5, 0.5, 0.5], rotation[1])
+				rotateX(transformedVert, vert[0], [0.5, 0.5, 0.5], rotation[0])
+				rotateY(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[1])
 				rotateZ(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[2])
-				rotateX(transformedVert, transformedVert, [0.5, 0.5, 0.5], rotation[0])
 				this.output += `v ${transformedVert.map((vertPos, vertIndex) => vertPos + offset[vertIndex]).join(" ")} ${color[0] / 255} ${color[1] / 255} ${color[2] / 255}\n`
 				this.output += `vt ${vert[1].join(" ")}\n`
 			})
