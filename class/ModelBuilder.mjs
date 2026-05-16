@@ -192,6 +192,7 @@ export class ModelBuilder {
 							rotateY(transformedNormal, transformedNormal, [0, 0, 0], rotation[1])
 							rotateZ(transformedNormal, transformedNormal, [0, 0, 0], rotation[2])
 							transformedNormal = roundComponents(transformedNormal)
+							transformedNormal[0] = -transformedNormal[0]
 							// check if the face is occluded
 							const checkPosition = [x, y, z].map((value, index) => Math.round(value + transformedNormal[index]))
 							if (!this.#positionOffBounds(checkPosition)) {
