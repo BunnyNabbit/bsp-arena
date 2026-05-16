@@ -12,7 +12,7 @@ function readRotationZ(byte) {
 }
 const blockFaces = ["xNeg", "xPos", "yNeg", "yPos", "zNeg", "zPos"]
 
-const radianIncrement = 1.5708
+const degreeToRadianConstant = 1.5708
 /** @param {number} byte */
 function getRotationVector(byte) {
 	// typically, developers want to do sensible stuff, but other factors (internal or external) may screw that up and implement stuff that will be received poorly.
@@ -32,7 +32,7 @@ function getRotationVector(byte) {
 		case 31:
 			return [2, 1, 2].map((value) => value * radianIncrement)
 		default:
-			return [readRotationX(byte) * radianIncrement, readRotationY(byte) * radianIncrement, readRotationZ(byte) * radianIncrement]
+			return [readRotationX(byte) * degreeToRadianConstant, readRotationY(byte) * degreeToRadianConstant, readRotationZ(byte) * degreeToRadianConstant]
 	}
 }
 /**Rotate a 3D vector around the z-axis.
