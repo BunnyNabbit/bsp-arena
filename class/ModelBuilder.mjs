@@ -189,8 +189,7 @@ export class ModelBuilder {
 		for (let z = 0; z < this.packedVoxels.volumeSize[2]; z++) {
 			console.log(z)
 			for (let y = 0; y < this.packedVoxels.volumeSize[1]; y++) {
-				for (let x = 0; x < packedVoxels.volumeSize[0]; x++) {
-					// console.log(x)
+				for (let x = 0; x < this.packedVoxels.volumeSize[0]; x++) {
 					const voxel = this.packedVoxels.getVoxel(this.packedVoxels.getIndex([x, y, z]))
 					const type = voxel[0]
 					if (!type) continue
@@ -221,13 +220,14 @@ export class ModelBuilder {
 								}
 							}
 						}
-						if (!isBlocked)
-							addGeometry(
+						if (!isBlocked) {
+							this.addGeometry(
 								blockFace,
-								[x, y, z],
+								[-x, y, z],
 								[1, 2, 3].map((offset) => colorBuffer.readUInt8(offset)),
 								rotation
 							)
+						}
 					})
 				}
 			}
@@ -236,7 +236,7 @@ export class ModelBuilder {
 
 	/** @param {any[]} position */
 	#positionOffBounds(position) {
-		return position.some((/** @type {number} */ component, /** @type {string | number} */ index) => component >= packedVoxels.volumeSize[index] || component < 0)
+		return position.some((/** @type {number} */ component, /** @type {string | number} */ index) => component >= this.packedVoxels.volumeSize[index] || component < 0)
 	}
 
 	/**@param {string} face
