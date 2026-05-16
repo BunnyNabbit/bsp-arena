@@ -31,8 +31,6 @@ export class PackedVoxels {
 				console.log(bufferSize)
 				if (bufferSize == 0) {
 					console.log(`erm. Fucky wucky?? ${chunkData.remaining()} bytes still remain 3:`)
-					// console.log("one step bacj")
-					// chunkData.readOffset -= 8
 					break
 				}
 				voxelBuffers.push(chunkData.readBuffer(bufferSize))

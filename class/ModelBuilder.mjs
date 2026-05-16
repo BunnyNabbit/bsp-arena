@@ -15,9 +15,7 @@ const blockFaces = ["xNeg", "xPos", "yNeg", "yPos", "zNeg", "zPos"]
 const radianIncrement = 1.5708
 /** @param {number} byte */
 function getRotationVector(byte) {
-	// Bunny: there are some hardcoded vectors in here. not sure if i am parsing them correctly, but the default switch is mostly accurate, otherwise the incorrectly guessed vectors are corrected. there are only 6 incorrect vectors, and they seem somewhat predictable as to how they fail. its weird, i am not going to look into c# or actionscript decomps for this, mainly because i don't want to install tools at this time, but also this been mostly the efforts of staring at a file format for a while and not a decomp of the client code. again, its weird.
 	// typically, developers want to do sensible stuff, but other factors (internal or external) may screw that up and implement stuff that will be received poorly.
-	// ps: the bottom face is incorrect. please fix.
 	switch (byte) {
 		case 17:
 			return [1, 1, 0].map((value) => value * radianIncrement)
@@ -180,16 +178,6 @@ function roundComponents(arr) {
  */
 function getOpposingFace(shape, normal, rotation) {
 	return blockFaces.find((blockFace) => {
-		// console.log({
-		// 	faceNormal: shape[blockFace].faceNormal,
-		// 	rotation: rotation,
-		// 	normal: normal
-		// })
-		// console.log(applyRotation(shape[blockFace].faceNormal, rotation, [0, 0, 0]))
-		// let transformed = applyRotation(shape[blockFace].faceNormal, rotation, [0, 0, 0]);
-		// (transformed[0] == -normal[0] && transformed[1] == -normal[1] && transformed[2] == -normal[2])
-		// !applyRotation(shape[blockFace].faceNormal, rotation, [0, 0, 0]).some((value, index) => value !== -normal[index])
-
 		return applyRotation(shape[blockFace].faceNormal, rotation, [0, 0, 0])
 			.map((value) => Math.round(value))
 			.some((value, index) => value !== 0 && normal[index] !== 0 && value == -normal[index])
@@ -236,26 +224,14 @@ export class ModelBuilder {
 							transformedNormal = roundComponents(transformedNormal)
 							// check if the face is occluded
 							const checkPosition = [x, y, z].map((value, index) => Math.round(value + transformedNormal[index]))
-							// console.log(checkPosition)
 							if (!this.#positionOffBounds(checkPosition)) {
-								// if ((this.packedVoxels.getIndex(checkPosition) * 2) ==456784.0921533697) {
-								// console.log({checkPosition});
-								// console.log({transformedNormal})
-								// console.log({rotation})
-								// }
 								const checkedVoxel = this.packedVoxels.getVoxel(this.packedVoxels.getIndex(checkPosition))
 								const checkedType = checkedVoxel[0]
 								if (checkedType) {
 									const checkedShapeGeometry = getShapeGeometryFromId(checkedVoxel[2])
 									const checkedRotation = getRotationVector(checkedVoxel[3])
-									// let transformedCheckedNormal = []
-									// rotateY(transformedCheckedNormal, checkedShapeGeometry[xNeg].faceNormal, [0.5, 0.5, 0.5], rotation[1])
-									// rotateZ(transformedCheckedNormal, transformedCheckedNormal, [0.5, 0.5, 0.5], rotation[2])
-									// rotateX(transformedCheckedNormal, transformedCheckedNormal, [0.5, 0.5, 0.5], rotation[0])
 									const opposing = getOpposingFace(checkedShapeGeometry, transformedNormal, checkedRotation)
-									// console.log(opposing)
 									isBlocked = checkedShapeGeometry[opposing].faceCovers
-									// if (isBlocked == true) console.log("Blocked")
 								}
 							}
 						}

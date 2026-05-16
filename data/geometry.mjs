@@ -181,19 +181,12 @@ export const slopeShape = {
 
 	zPos: {
 		// back face
-		geometry: [
-			// [[0, 0, 1], [0, 1]],
-			// [[1, 0, 1], [1, 1]],
-			// [[1, 1, 1], [1, 0]],
-			// [[0, 1, 1], [0, 0]],
-			// [[0, 0, 1], [0, 1]],
-			// [[1, 1, 1], [1, 0]]
-		],
+		geometry: [],
 		faceNormal: [0, 0, 1],
 		faceCovers: false,
 	},
 	xNeg: {
-		// left face. I ARLEDY FIXED THE UV. DON:"T TOCUH"
+		// left face.
 		geometry: [
 			[
 				[0, 0, 0],
@@ -207,10 +200,6 @@ export const slopeShape = {
 				[0, 1, 0],
 				[1, 1],
 			],
-
-			// [[0, 1, 0], [0, 0]],
-			// [[0, 0, 0], [0, 1]],
-			// [[0, 1, 1], [1, 0]]
 		],
 		faceNormal: [-1, 0, 0],
 		faceCovers: false,
@@ -230,10 +219,6 @@ export const slopeShape = {
 				[1, 1, 0],
 				[0, 1],
 			],
-
-			// [[1, 1, 1], [0, 1]],
-			// [[1, 0, 1], [0, 0]],
-			// [[1, 1, 0], [1, 1]]
 		],
 		faceNormal: [1, 0, 0],
 		faceCovers: false,
