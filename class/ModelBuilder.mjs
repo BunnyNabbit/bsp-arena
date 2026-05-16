@@ -110,20 +110,6 @@ function rotateZ(out, a, b, rad) {
 	out[2] = r[2] + b[2]
 	return out
 }
-/**@param {{ yNeg: any; yPos: any; xPos: any; xNeg: any; zPos: any; zNeg: any }} shape
- * @param {any} position
- * @param {number[] | undefined} color
- * @param {number[] | undefined} rotation
- */
-function addShape(shape, position, color, rotation) {
-	addGeometry(shape.yNeg, position, color, rotation)
-	addGeometry(shape.yPos, position, color, rotation)
-	addGeometry(shape.xPos, position, color, rotation)
-	addGeometry(shape.xNeg, position, color, rotation)
-	addGeometry(shape.zPos, position, color, rotation)
-	addGeometry(shape.zNeg, position, color, rotation)
-}
-
 /**@param {any} position
  * @param {any[]} rotation
  */
